@@ -1,16 +1,17 @@
 # New Age BS Bot
 
---
+Welcome to the New Age Bullshit bot!
 
-Welcome to the New Age BS bot!
+This is a quick project built upon Seb Pearce's excellent [New Age Bullshit Generator](http://sebpearce.com/bullshit/) that
+takes the incredibly humorous output of the NABG and presents it to the internet in tweet form.
 
-This is a quick project built upon Seb Pearce's excellent [New Age Bullshit Generator]() that takes the incredibly humorous output 
-of the NABG and presents it to the internet in tweet form.
+This is the Openshift-ready branch that I use in production to host [@nabgbot](https://www.twitter.com/nabgbot/). Necessary changes
+have been made to accommodate for Openshift's various requirements, and the bot posts at a 15 minute interval. The code has
+also been configured to redirect to the bot's twitter profile should a user make an HTTP request to the application (e.g at [nabgbot-ctis.rhcloud.com](http://nabgbot-ctis.rhcloud.com)).
 
-Before using this, you'll want to `npm install twitter` and grab application keys for your bot from [the dashboard](https://apps.twitter.com/).
-
-After that, you'll want to host the bot somehow. I had a cron job that ran main.js every so often (which I've included in this repo), but
-you could also wrap the call to sendPost in a setTimeout and host your application on one of the many free services available (Openshift, Heroku, etc). 
+After configuration, you should be able to simply import the repo into an Openshift gear and be ready to go. You will need
+to fill out the Twitter API config before doing so, however. You may also wish to adjust the interval at which tweets
+are posted (the default is 15 minutes).
 
 Enjoy!
 

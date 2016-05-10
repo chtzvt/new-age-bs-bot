@@ -1,0 +1,36 @@
+{
+  "name": "NewAgeBullshitBot",
+  "version": "1.0.0",
+  "description": "Posts new-agey things to your Twitter account",
+  "keywords": [
+    "OpenShift",
+    "Node.js",
+    "new-age",
+    "bullshit",
+    "twitter"
+  ],
+  "author": {
+    "name": "Charlton Trezevant",
+    "email": "ct@ctis.me",
+    "url": "https://www.ctis.me/"
+  },
+  "homepage": "https://github.com/ctrezevant/new-age-bs-bot/tree/openshift/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ctrezevant/new-age-bs-bot/tree/openshift/"
+  },
+
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+
+  "dependencies": {
+    "twitter": "~1.2.5"
+  },
+  "devDependencies": {},
+  "bundleDependencies": [],
+
+  "private": false,
+  "main": "main.js"
+}
