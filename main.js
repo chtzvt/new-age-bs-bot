@@ -3,6 +3,7 @@ var bs = require('./lib/bullshit.js');
 
 // Import the Twitter API - see https://www.npmjs.com/package/twitter
 var Twitter = require('twitter');
+// http server module to serve redirect
 var http = require('http');
 
 // Twitter API config
@@ -19,7 +20,8 @@ var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1"
 
 // Generate a post that is less than 140 chars long (in a rather inefficient, though effective fashion)
 function generatePost() {
-  post = bs.ionize(3);
+  // Generate post with 2 sentences by default. 
+  post = bs.ionize(2);
 
   // Ensure that posts are <= 140 characters and are NOT undefined.
   while(post.length > 140 || typeof post === 'undefined' || post.length === 0)
@@ -43,9 +45,10 @@ function sendPost() {
 }
 
 // Make Twitter API calls at a 15min interval
-cron = function(){
+function cron() {
   try {
     sendPost();
+    // Graceful error handling and logging
   } catch(err) {
     console.log("" + new Date().today() + " @ " + new Date().timeNow() + " Error: " + JSON.stringify(err));
   }
@@ -56,7 +59,6 @@ cron();
 
 // HTTP requests made to the application's external URL will redirect to the bot's twitter profile.
 http.createServer(function(req, res) {
-    res.writeHead(301, {
-       Location: 'https://twitter.com/nabgbot'});
+    res.writeHead(301, {Location: 'https://twitter.com/nabgbot'});
     res.end();
 }).listen(port, ip);
