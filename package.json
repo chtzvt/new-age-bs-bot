@@ -5,6 +5,7 @@
   "keywords": [
     "OpenShift",
     "Node.js",
+    "application",
     "new-age",
     "bullshit",
     "twitter"
@@ -14,10 +15,10 @@
     "email": "ct@ctis.me",
     "url": "https://www.ctis.me/"
   },
-  "homepage": "https://github.com/ctrezevant/new-age-bs-bot/tree/openshift/",
+  "homepage": "https://github.com/ctrezevant/new-age-bs-bot",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ctrezevant/new-age-bs-bot/tree/openshift/"
+    "url": "https://github.com/ctrezevant/new-age-bs-bot/tree/openshift"
   },
 
   "engines": {
@@ -28,9 +29,9 @@
   "dependencies": {
     "twitter": "~1.2.5"
   },
+
   "devDependencies": {},
   "bundleDependencies": [],
-
-  "private": false,
+  "private": true,
   "main": "main.js"
 }
