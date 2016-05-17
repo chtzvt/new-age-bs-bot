@@ -50,7 +50,7 @@ function cron() {
     sendPost();
     // Graceful error handling and logging
   } catch(err) {
-    console.log("" + new Date().today() + " @ " + new Date().timeNow() + " Error: " + JSON.stringify(err));
+    console.log("Error: " + JSON.stringify(err));
   }
   setTimeout(cron,900000)
 }
