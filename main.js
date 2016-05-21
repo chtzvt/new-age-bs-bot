@@ -60,7 +60,7 @@ function cron() {
   try {
     sendPost();
   } catch(err) {
-    console.error("NABG_DEBUG: ' + CONFIG.TWITTER_URL + ' Caught " + err.name + ": " + err.message);
+    console.error('NABG_DEBUG: '+CONFIG.TWITTER_URL+' Caught '+err.name+': '+err.message);
   }
   setTimeout(cron,CONFIG.POST_INTERVAL)
 }
