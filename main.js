@@ -5,7 +5,7 @@ var Twitter = require('twitter');
 // HTTP server module to serve profile page redirect
 var http = require('http');
 
-/* NABGBot Configuration: 
+/* NABGBot Configuration:
  *	TWITTER_API_KEYS - Fill this in with the API keys you get from https://apps.twitter.com/
  * 	IP and PORT - These are automatically determined while on Openshift, but will default to 127.0.0.1:8082
  * 	TWITTER_URL - The full URL to your bot's twitter page
@@ -24,14 +24,14 @@ var CONFIG = {
 		POST_INTERVAL: 900000
 }
 
-console.info('NABG_INFO: Starting '+CONFIG.TWITTER_URL+' on '+CONFIG.IP+':'+CONFIG.PORT); 
+console.info('NABG_INFO: Starting '+CONFIG.TWITTER_URL+' on '+CONFIG.IP+':'+CONFIG.PORT);
 
 // Create Twitter API client instance
 var client = new Twitter(CONFIG.TWITTER_API_KEYS);
 
 // Generates a post that is less than 140 chars long
 function generatePost() {
-  // Generate post with between 1 or 2 sentences by default. 
+  // Generate post with between 1 or 2 sentences by default.
   post = bs.ionize(Math.floor(Math.random()*2)+1);
 
   // Ensure that posts are <= 140 characters and are NOT empty.
@@ -60,7 +60,7 @@ function cron() {
   try {
     sendPost();
   } catch(err) {
-    console.error('NABG_DEBUG: '+CONFIG.TWITTER_URL+' Caught '+err.name+': '+err.message);
+    console.info('NABG_DEBUG: '+CONFIG.TWITTER_URL+' Caught '+err.name+': '+err.message);
   }
   setTimeout(cron,CONFIG.POST_INTERVAL)
 }
