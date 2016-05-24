@@ -21,6 +21,9 @@ Assuming that you already have some amount of familiarity with Openshift, tnitia
 this repository to your local machine, grab [your Twitter API keys](https://apps.twitter.com), and fill out the bot
 configuration. Once finished, [create your NodeJS application](https://developers.openshift.com/languages/nodejs/getting-started.html) and push your newly configured bot to your gear.
 
+**Note:** You'll probably want to upgrade your Openshift account plan to the Bronze tier in order to avoid [application idling](https://developers.openshift.com/managing-your-applications/idling.html), which effectively
+"sleeps" your app until it recieves HTTP requests (thus disrupting posts). Check out [this explanation](http://stackoverflow.com/a/29403364) for pricing deets.
+
 ##Configuration
 
 All configuration is located in the **CONFIG** object:
