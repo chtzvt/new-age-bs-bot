@@ -27,7 +27,7 @@
   },
 
   "dependencies": {
-    "twitter": "~1.2.5"
+    "twit": "~2.2.5"
   },
 
   "devDependencies": {},
