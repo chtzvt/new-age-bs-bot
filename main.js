@@ -1,7 +1,9 @@
 // Import the bullshit module
-var bs = require('./lib/bullshit.js');
+var bs = require('nabg');
 // Import the Twitter API module - see https://www.npmjs.com/package/twitter
 var Twitter = require('twit');
+// Import the Cron module for post scheduling.
+var cron = require('cron').CronJob;
 // HTTP server module to serve profile page redirect
 var http = require('http');
 
@@ -11,8 +13,9 @@ var http = require('http');
  *  use the first set of keys, instead. I like to use 2 different sets so that if the response keys hit the quota
  *  and become disabled temporarily, the bot can still post statuses without interruption.
  * 	IP and PORT - These are automatically determined while on Openshift, but will default to 127.0.0.1:8082
- * 	TWITTER_URL - The full URL to your bot's twitter page
- *	POST_INTERVAL - The interval, in ms, at which posts should be made (Keep Twitter's API rate limits in mind!).
+ * 	TWITTER_URL - The full URL to your bot's twitter page. Used for the redirect
+ *  BOT_NAME: the Twitter username of your bot. This is needed to track replies.
+ *	CRON - Posting schedule (standard Cron syntax)
  */
 var CONFIG = {
                 TWITTER_API_KEYS: {
@@ -27,11 +30,14 @@ var CONFIG = {
                            access_token: ' ',
                            access_token_secret: ' '
                 },
-		BOT_NAME: 'nabgbot',
+		BOT_NAME: 'changeme',
 		IP: process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1",
 		PORT: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8082,
 		TWITTER_URL: "https://twitter.com/nabgbot",
-		POST_INTERVAL: 1800000
+    CRON: {
+        TIME: '00 0,30 * * * *',
+        TIMEZONE: 'America/New_York'
+    }
 };
 
 console.info('NABG_INFO: Starting '+CONFIG.TWITTER_URL+' on '+CONFIG.IP+':'+CONFIG.PORT);
@@ -54,7 +60,7 @@ responseStream.on('disconnect', function(disconnectMessage) {
 // Generates a post that is less than 140 chars long
 function generatePost() {
   // Generate post with between 1 or 2 sentences by default.
-  post = bs.ionize(Math.floor(Math.random()*2)+1);
+  var post = bs.ionize(Math.floor(Math.random()*2)+1);
 
   // Ensure that posts are <= 140 characters and are NOT empty.
   while(post.length > 140 || typeof post === 'undefined' || post.length === 0)
@@ -120,16 +126,21 @@ function postReply(tweet) {
 }
 
 // Make Twitter API calls at a configurable interval, with graceful error handling and logging
-function cron() {
-  try {
-    sendPost();
-  } catch(err) {
-    console.error('NABG_DEBUG: '+CONFIG.TWITTER_URL+' Caught '+err.name+': '+err.message);
-  }
-  setTimeout(cron,CONFIG.POST_INTERVAL);
-}
+var sched = new cron({
+    cronTime: CONFIG.CRON.TIME,
+    onTick: function() {
+      try {
+        sendPost();
+      } catch(err) {
+        console.error('NABG_DEBUG: '+CONFIG.TWITTER_URL+' Caught '+err.name+': '+err.message);
+      }
+    },
+    start: false,
+    timeZone: CONFIG.CRON.TIMEZONE
+});
 
-cron();
+sched.start();
+sendPost();
 
 // HTTP requests made to the application's external URL will redirect to the bot's twitter profile.
 http.createServer(function(req, res) {
